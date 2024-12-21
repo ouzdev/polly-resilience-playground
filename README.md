@@ -49,6 +49,8 @@ The goal is to provide practical examples and insights into building resilient .
 
 ## Usage
 
+### Option 1: Run Locally
+
 1. Build and run the project:
    ```bash
    dotnet run
@@ -58,6 +60,38 @@ The goal is to provide practical examples and insights into building resilient .
    - `/retry`: Demonstrates the Retry pattern in action.
 
 3. Explore the logs to see how Polly handles transient faults and implements resilience.
+
+### Option 2: Run with Docker Compose
+
+This project includes a `docker-compose.yml` file to set up the entire testing environment, which includes:
+- **Guest API**: Simulates external API calls.
+- **External API**: Represents services with transient faults for testing.
+- **Grafana**: For visualizing metrics.
+- **Prometheus**: For collecting metrics.
+
+#### Steps to Run
+
+1. Ensure Docker and Docker Compose are installed on your machine.
+
+2. Navigate to the project directory:
+   ```bash
+   cd polly-resilience-playground
+   ```
+
+3. Start the Docker containers:
+   ```bash
+   docker-compose up
+   ```
+
+4. Verify the services are running:
+   - **Grafana**: Access at [http://localhost:3000](http://localhost:3000).
+   - **Prometheus**: Access at [http://localhost:9090](http://localhost:9090).
+   - **APIs**: Use the provided endpoints for testing resilience strategies.
+
+5. Stop the services:
+   ```bash
+   docker-compose down
+   ```
 
 ---
 

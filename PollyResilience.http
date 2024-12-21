@@ -1,6 +1,0 @@
-@PollyResilience_HostAddress = http://localhost:5025
-
-GET {{PollyResilience_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -1,6 +1,7 @@
 # Polly Resilience Playground
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-ouzdev/polly--resilience--playground-blue?logo=github)](https://github.com/ouzdev/polly-resilience-playground.git)
+[![Build Status](https://github.com/ouzdev/polly-resilience-playground/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ouzdev/polly-resilience-playground/actions)
 
 ## Overview
 

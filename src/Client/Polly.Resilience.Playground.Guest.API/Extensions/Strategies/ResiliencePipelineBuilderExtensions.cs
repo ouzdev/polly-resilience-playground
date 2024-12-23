@@ -100,7 +100,7 @@ public class CircuitBreakerMetersEnricher : MeteringEnricher
     {
         if (context.TelemetryEvent.Arguments is OnCircuitOpenedArguments<TResult> onCircuitOpenedArgs)
         {
-            context.Tags.Add(new KeyValuePair<string, object?>("circuit.breaker.open.duration", onCircuitOpenedArgs.BreakDuration));
+            context.Tags.Add(new KeyValuePair<string, object>("circuit.breaker.open.duration", onCircuitOpenedArgs.BreakDuration));
         }
     }
 }
@@ -113,6 +113,6 @@ public class PipelineEndpointEnricher : MeteringEnricher
 
         var endpoint = httpRequest.RequestUri?.AbsolutePath ?? "Unknown";
 
-        context.Tags.Add(new KeyValuePair<string, object?>("http.endpoint", endpoint));
+        context.Tags.Add(new KeyValuePair<string, object>("http.endpoint", endpoint));
     }
 }

@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Guest API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Client/Polly.Resilience.Playground.Guest.API/bin/Debug/net8.0/Polly.Resilience.Playground.Guest.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Client/Polly.Resilience.Playground.Guest.API",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Launch PMS API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/ExternalService/Polly.Resilience.Playground.PMS.API/bin/Debug/net8.0/Polly.Resilience.Playground.PMS.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/ExternalService/Polly.Resilience.Playground.PMS.API",
+      "stopAtEntry": false,
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch Both APIs",
+      "configurations": ["Launch Guest API", "Launch PMS API"]
+    }
+  ]
+}

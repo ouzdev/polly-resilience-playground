@@ -1,5 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DB66BB33-0A6A-4817-866E-EAAC708EB7C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalService", "ExternalService", "{309E76C1-9451-427E-9B33-C88E554E090B}"
@@ -19,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polly.Resilience.Playground
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\Shared\Common\Common.csproj", "{43587332-A08E-4FB2-BF6D-166979959A70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "..\SSS\WebApplication1\WebApplication1.csproj", "{A0B8A204-8F52-456C-9555-D34FF2E020B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +40,10 @@ Global
 		{43587332-A08E-4FB2-BF6D-166979959A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43587332-A08E-4FB2-BF6D-166979959A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43587332-A08E-4FB2-BF6D-166979959A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B8A204-8F52-456C-9555-D34FF2E020B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B8A204-8F52-456C-9555-D34FF2E020B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B8A204-8F52-456C-9555-D34FF2E020B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B8A204-8F52-456C-9555-D34FF2E020B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{309E76C1-9451-427E-9B33-C88E554E090B} = {DB66BB33-0A6A-4817-866E-EAAC708EB7C5}

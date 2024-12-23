@@ -1,0 +1,5 @@
+{
+    "debug.defaultCompound": "Launch Both APIs",
+    "dotnet.defaultSolution": "polly-resilience-playground.sln"
+  }
+  

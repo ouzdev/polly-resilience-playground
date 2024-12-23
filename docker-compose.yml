@@ -8,6 +8,7 @@ services:
   prometheus:
     build:
       context: ./scripts/prometheus
+    container_name:  prometheus-metric-service 
     ports:
       - 9090:9090
     networks:
@@ -16,6 +17,7 @@ services:
   grafana:
     build:
       context: ./scripts/grafana
+    container_name: grafana-monitoring-service  
     depends_on:
       - prometheus
     ports:
@@ -25,6 +27,7 @@ services:
   
   otel-collector:
     image: otel/opentelemetry-collector:0.73.0
+    container_name: otel-collector-service
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./scripts/otel-collector/otel-collector-config.yaml:/etc/otel-collector-config.yaml

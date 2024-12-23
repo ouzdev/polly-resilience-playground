@@ -29,9 +29,9 @@ public static class ResiliencePipelineBuilderExtensions
     {
         builder.AddCircuitBreaker(new CircuitBreakerStrategyOptions<HttpResponseMessage>
         {
-            FailureRatio = failureRatio, // %50 hata oranı
-            MinimumThroughput = minimumThroughput, // En az 4 istek sonrası değerlendirme başlar
-            BreakDuration = breakDuration, // Servis 1 dakika devre dışı kalacak.
+            FailureRatio = failureRatio,
+            MinimumThroughput = minimumThroughput,
+            BreakDuration = breakDuration,
             ShouldHandle = response =>
             {
                 var statusCode = response.Outcome.Result?.StatusCode;
@@ -66,18 +66,16 @@ public static class ResiliencePipelineBuilderExtensions
         {
             ShouldHandle = args =>
             {
-                // Yalnızca 5xx hata kodları için yeniden deneme yapılır (503 hariç)
                 if (args.Outcome.Result != null &&
                     (int)args.Outcome.Result.StatusCode >= 500 &&
                     (int)args.Outcome.Result.StatusCode < 600 &&
-                    args.Outcome.Result.StatusCode != HttpStatusCode.ServiceUnavailable) // 503 hariç
+                    args.Outcome.Result.StatusCode != HttpStatusCode.ServiceUnavailable)
                 {
-                    return new ValueTask<bool>(true); // Yeniden deneme yap
+                    return new ValueTask<bool>(true);
                 }
 
-                return new ValueTask<bool>(false); // Yeniden deneme yapma
+                return new ValueTask<bool>(false);
             },
-            
             MaxRetryAttempts = maxRetryAttempts,
             OnRetry = args =>
             {

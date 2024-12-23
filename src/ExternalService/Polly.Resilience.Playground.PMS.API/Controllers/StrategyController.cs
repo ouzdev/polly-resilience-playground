@@ -7,6 +7,7 @@ public class StrategyController(ILogger<StrategyController> logger) : BaseContro
 {
     private static int _failureCount;
     private static int _requestCount;
+    private static int _hedgingRequestCount;
     
     [HttpGet("retry")]
     public IActionResult Retry()
@@ -78,27 +79,32 @@ public class StrategyController(ILogger<StrategyController> logger) : BaseContro
         return Ok();
     }
     
-    [HttpGet("hedging-1")]
-    public IActionResult Hedging1()
+    [HttpGet("hedging")]
+    public IActionResult Hedging()
     {
-        Logger.LogInformation("Endpoint hedging-1 is processing the request...");
-        Thread.Sleep(5000); // 5 saniye gecikme simülasyonu
-        return Ok("Response from hedging-1");
+        var currentRequest = Interlocked.Increment(ref _hedgingRequestCount); // İstek sayısını artır
+
+        Logger.LogInformation("Hedging endpoint processing request {RequestNumber}", currentRequest);
+
+        
+        var res = new Reservation
+        {
+            Id = Guid.NewGuid(),
+            ArrivalDate = DateTime.Now,
+            DepartureDate = DateTime.Now.AddDays(3),
+            ConfirmationNo = "CIRCUIT1234",
+        };
+        
+        if (currentRequest % 2 == 1) // Tek sayılı isteklerde uzun gecikme
+        {
+            Logger.LogWarning("Request {RequestNumber} is experiencing a simulated delay.", currentRequest);
+            Thread.Sleep(10000); // 6 saniye gecikme (hedging delay değerini aşar)
+            return Ok(res);
+        }
+
+        // Çift sayılı isteklerde hızlı yanıt
+        Logger.LogInformation("Request {RequestNumber} completed successfully.", currentRequest);
+        return Ok(res);
     }
 
-    [HttpGet("hedging-2")]
-    public IActionResult Hedging2()
-    {
-        Logger.LogInformation("Endpoint hedging-2 is processing the request...");
-        Thread.Sleep(3000); // 3 saniye gecikme simülasyonu
-        return Ok("Response from hedging-2");
-    }
-
-    [HttpGet("hedging-3")]
-    public IActionResult Hedging3()
-    {
-        Logger.LogInformation("Endpoint hedging-3 is processing the request...");
-        Thread.Sleep(1500); // 1.5 saniye gecikme simülasyonu
-        return Ok("Response from hedging-3");
-    }
 }

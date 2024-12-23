@@ -7,7 +7,9 @@ public interface IStrategyService
 {
     Task<ApiResponse<Reservation>> Retry();
     Task<ApiResponse<Reservation>> CircuitBreaker();
-     Task<ApiResponse<Reservation>> Timeout();
-     Task<ApiResponse<Reservation>> RateLimiter();
-     Task TimeoutPipeline();
+    Task<ApiResponse<Reservation>> Timeout();
+    Task<ApiResponse<Reservation>> RateLimiter();
+    Task<ApiResponse<Reservation>> Hedging();
+
+    Task TimeoutPipeline();
 }

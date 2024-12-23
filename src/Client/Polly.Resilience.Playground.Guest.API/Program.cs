@@ -1,13 +1,15 @@
 using System.Net;
 using System.Text.Json.Serialization;
 using Common;
+using Microsoft.Extensions.Http.Resilience;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using Polly;
 using Polly.Fallback;
+using Polly.Hedging;
+using Polly.Resilience.Playground.Guest.API.Services.Concrete;
 using PollyResilience.Client.Extensions.Strategies;
 using PollyResilience.Client.Services.Abstract;
-using PollyResilience.Client.Services.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,19 @@ builder.Services.AddHttpClient<IStrategyService, StrategyService>(ResiliencePipe
         .AddTimeoutStrategy(TimeSpan.FromSeconds(30), logger!)
         //Başarısız istekler tekrardan denenir. Burada maksimum 2 kez istek atmaya çalışılır eğer başarılı cevap gelmez ise hata dönülür.
         .AddRetryStrategy(maxRetryAttempts: 5, logger!)
+        .AddHedging(new HttpHedgingStrategyOptions
+        {
+            MaxHedgedAttempts = 2, // İki paralel deneme
+            Delay = TimeSpan.FromSeconds(5), // 1 saniye sonra ikinci istek başlatılır
+            ShouldHandle = attempt => ValueTask.FromResult(attempt.Outcome switch
+            {
+                // Zaman aşımı durumunda hedge başlat
+                { Result.StatusCode: HttpStatusCode.InternalServerError } => true,
+                    
+                _=>false
+            }) 
+            
+        })
         .AddCircuitBreakerStrategy(failureRatio: 0.5, minimumThroughput: 5, breakDuration: TimeSpan.FromSeconds(15), logger!)
         .AddFallback(options: new FallbackStrategyOptions<HttpResponseMessage>
         {
@@ -70,6 +85,7 @@ builder.Services.AddHttpClient<IStrategyService, StrategyService>(ResiliencePipe
         }).Build();
 
 });
+
 
 //Resilience Pipeline
 builder.Services.AddResiliencePipeline("timeout", builder =>

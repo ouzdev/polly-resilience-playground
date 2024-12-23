@@ -21,6 +21,8 @@ public class ResilienceController(ILogger<ResilienceController> logger, IStrateg
     }
     [HttpGet("rate-limiter")]
     public Task<ApiResponse<Reservation>> RateLimiter() => strategyService.RateLimiter();
+    [HttpGet("hedging")]
+    public Task<ApiResponse<Reservation>> Hedging() => strategyService.Hedging();
 
     [HttpGet("resilience-pipeline")]
     public async Task<ActionResult> TimeoutPipeline()

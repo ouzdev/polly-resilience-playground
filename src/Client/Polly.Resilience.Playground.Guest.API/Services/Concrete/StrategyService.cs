@@ -1,10 +1,8 @@
 ﻿using Common;
-using Microsoft.AspNetCore.Mvc;
-using Polly;
 using Polly.Registry;
 using PollyResilience.Client.Services.Abstract;
 
-namespace PollyResilience.Client.Services.Concrete;
+namespace Polly.Resilience.Playground.Guest.API.Services.Concrete;
 
 public class StrategyService(HttpClient client, ResiliencePipelineProvider<string> pipelineProvider) : IStrategyService
 {
@@ -12,6 +10,7 @@ public class StrategyService(HttpClient client, ResiliencePipelineProvider<strin
     private const string CircuitBreakerEndpoint = "api/strategy/circuit-breaker";
     private const string TimeoutEndpoint = "api/strategy/timeout";
     private const string RateLimiterEndpoint = "api/strategy/rate-limiter";
+    private const string HedgingEndpoint = "api/strategy/hedging";
 
     public Task<ApiResponse<Reservation>> Retry()
     {
@@ -27,6 +26,10 @@ public class StrategyService(HttpClient client, ResiliencePipelineProvider<strin
         return ProcessApiResponse.ExecuteRequest<Reservation>(() => client.GetAsync(TimeoutEndpoint));
     }
     public Task<ApiResponse<Reservation>> RateLimiter() => ProcessApiResponse.ExecuteRequest<Reservation>(() => client.GetAsync(RateLimiterEndpoint));
+    public Task<ApiResponse<Reservation>> Hedging()
+    {
+        return ProcessApiResponse.ExecuteRequest<Reservation>(() => client.GetAsync(HedgingEndpoint));
+    }
     public async Task TimeoutPipeline()
     {
         var timeoutPipeline = pipelineProvider.GetPipeline("timeout");
